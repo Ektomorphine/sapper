@@ -1,0 +1,5 @@
+<div class="container">
+  <div *ngFor="let item of makeGameBoard()">
+    <span *ngFor="let i of item">({{i.isBomb}} | {{i.numberOfBombsAround}})</span><br>
+  </div>
+</div>

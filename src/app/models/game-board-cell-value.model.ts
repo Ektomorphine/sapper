@@ -1,4 +1,4 @@
-export class GameBoardCellValue {
+export interface GameBoardCellValue {
   numberOfBombsAround?: number;
   isBomb?: boolean;
 }

@@ -10,20 +10,26 @@ import { GameBoardCellValue } from './../../models/game-board-cell-value.model';
 export class SapperPage {
 
   ngOnInit() {
-    console.log(this.makeGameBoard());
   }
 
-  public makeGameBoard(): any {
+  public makeGameBoard(): string[] {
     let gameBoardMatrix = new Array();
     for (let i = 0; i < 10; i++) {
       gameBoardMatrix[i] = [];
       for (let j = 0; j < 10; j++) {
         gameBoardMatrix[i][j] = {
           isBomb: false,
-          numberOfBombsAround: 10
+          numberOfBombsAround: ''
         };
       }
     }
+    for (let z = 0; z < 15; z++){
+      gameBoardMatrix[this.random(0,9)][this.random(0,9)].isBomb = true;
+    }
     return gameBoardMatrix;
+  }
+
+  public random(min, max): number { // randomize func
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 }

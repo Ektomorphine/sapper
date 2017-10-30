@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Router } from '@angular/router';
+
 import { GameBoardCellValue } from './../../models/game-board-cell-value.model';
 
 @Component({
@@ -9,8 +11,9 @@ import { GameBoardCellValue } from './../../models/game-board-cell-value.model';
 })
 export class SapperPage {
 
-  public counter = 0;
   public arr: GameBoardCellValue[][];
+
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.makeGameBoard();
@@ -26,7 +29,8 @@ export class SapperPage {
       for (let j = 0; j < 10; j++) {
         gameBoardMatrix[i][j] = {
           isBomb: false,
-          numberOfBombsAround: 0
+          numberOfBombsAround: 0,
+          isHidden: false
         };
       }
     }
@@ -34,6 +38,13 @@ export class SapperPage {
       gameBoardMatrix[this.random(0,9)][this.random(0,9)].isBomb = true;
     }
     return gameBoardMatrix;
+  }
+
+  public openCell(cell: GameBoardCellValue): void {
+    cell.isHidden = true;
+    if (cell.isBomb) {
+      this.router.navigate(['game-over']);
+    }
   }
 
   public countBombs() {
@@ -56,9 +67,9 @@ export class SapperPage {
           if (this.arr[i][j+1].isBomb) {
             this.arr[i][j].numberOfBombsAround++
           };
-          if (this.arr[i+1][j-1].isBomb)
-            {this.arr[i][j].numberOfBombsAround++
-            };
+          if (this.arr[i+1][j-1].isBomb){
+            this.arr[i][j].numberOfBombsAround++
+          };
           if (this.arr[i+1][j].isBomb) {
             this.arr[i][j].numberOfBombsAround++
           };
@@ -107,57 +118,59 @@ export class SapperPage {
         }
         if (i > 0 && j == 9){
           if (this.arr[i][j-1].isBomb) this.arr[i][j].numberOfBombsAround++
-        // if (i == 0 && j == 0) {
-        //   break
-        // } else if (this.arr[i-1][j-1].isBomb) {
-        //   console.log('alok');
-        //   this.arr[i][j].numberOfBombsAround++
-        // };
+        }
 
-        // if (i == 0) {
-        //   break
-        // } else if (this.arr[i-1][j].isBomb) {
-        //    this.arr[i][j].numberOfBombsAround++
-        // };
+        /*if (i - 1 < 0 || j - 1 < 0) {
+          break
+        } else if (this.arr[i-1][j-1].isBomb) {
+          console.log('ok');
+          this.arr[i][j].numberOfBombsAround++
+        };
 
-        // if (i == 0 || i == 9 || j == 0 || j == 9) {
-        //   break
-        // } else if (this.arr[i-1][j+1].isBomb) {
-        //   this.arr[i][j].numberOfBombsAround++
-        // };
+        if (i == 0) {
+          break
+        } else if (this.arr[i-1][j].isBomb) {
+           this.arr[i][j].numberOfBombsAround++
+        };
 
-        // if (i == 0 || i == 9 || j == 0 || j == 9) {
-        //   break
-        // } else if (this.arr[i][j-1].isBomb) {
-        //   this.arr[i][j].numberOfBombsAround++
-        // };
+        if (i == 0 || i == 9 || j == 0 || j == 9) {
+          break
+        } else if (this.arr[i-1][j+1].isBomb) {
+          this.arr[i][j].numberOfBombsAround++
+        };
 
-        // if (i == 0 || i == 9 || j == 0 || j == 9) {
-        //   break
-        // } else if (this.arr[i][j+1].isBomb) {
-        //   this.arr[i][j].numberOfBombsAround++
-        // };
+        if (i == 0 || i == 9 || j == 0 || j == 9) {
+          break
+        } else if (this.arr[i][j-1].isBomb) {
+          this.arr[i][j].numberOfBombsAround++
+        };
 
-        // if (i == 0 || i == 9 || j == 0 || j == 9) {
-        //   break
-        // } else if (this.arr[i+1][j-1].isBomb) {
-        //   this.arr[i][j].numberOfBombsAround++
-        // };
+        if (i == 0 || i == 9 || j == 0 || j == 9) {
+          break
+        } else if (this.arr[i][j+1].isBomb) {
+          this.arr[i][j].numberOfBombsAround++
+        };
 
-        // if (i == 0 || i == 9 || j == 0 || j == 9) {
-        //   break
-        // } else if (this.arr[i+1][j].isBomb) {
-        //   this.arr[i][j].numberOfBombsAround++
-        // };
+        if (i == 0 || i == 9 || j == 0 || j == 9) {
+          break
+        } else if (this.arr[i+1][j-1].isBomb) {
+          this.arr[i][j].numberOfBombsAround++
+        };
 
-        // if (i == 0 || i == 9 || j == 0 || j == 9) {
-        //   break
-        // } else if (this.arr[i+1][j+1].isBomb) {
-        //   this.arr[i][j].numberOfBombsAround++
-        // };
+        if (i == 0 || i == 9 || j == 0 || j == 9) {
+          break
+        } else if (this.arr[i+1][j].isBomb) {
+          this.arr[i][j].numberOfBombsAround++
+        };
+
+        if (i == 0 || i == 9 || j == 0 || j == 9) {
+          break
+        } else if (this.arr[i+1][j+1].isBomb) {
+          this.arr[i][j].numberOfBombsAround++
+        } ; */
       }
     }
-  }}
+  }
 
   public random(min, max): number { // randomize func
     return Math.floor(Math.random() * (max - min)) + min;

@@ -1,8 +1,16 @@
 <div class="container">
   <div *ngFor="let item of arr">
-    <span *ngFor="let i of item">
-      <span *ngIf="i.isBomb">[*]</span>
-      <span *ngIf="i.isBomb != true">[{{i.numberOfBombsAround}}]</span>
+    <span *ngFor="let cell of item">
+      <div *ngIf="cell.isBomb" class="board-cell">
+        <span (click)="openCell(cell)" [ngClass]="{coverOpened:cell.isHidden, coverClosed:true}">
+          *
+        </span>
+      </div>
+      <div *ngIf="cell.isBomb != true" class="board-cell">
+        <span (click)="openCell(cell)" [ngClass]="{coverOpened:cell.isHidden, coverClosed:true}">
+          {{cell.numberOfBombsAround}}
+        </span>
+      </div>
     </span>
     <br>
   </div>

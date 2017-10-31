@@ -11,14 +11,14 @@ import { GameBoardCellValue } from './../../models/game-board-cell-value.model';
 })
 export class SapperPage {
 
-  public arr: GameBoardCellValue[][];
+  public bombsAroundCell: GameBoardCellValue[][];
 
   constructor(private router: Router) {}
 
   ngOnInit() {
     this.makeGameBoard();
     this.countBombs();
-    console.log(this.arr);
+    console.log(this.bombsAroundCell);
   }
 
   public makeGameBoard(): GameBoardCellValue[][] {
@@ -48,126 +48,152 @@ export class SapperPage {
   }
 
   public countBombs() {
-    this.arr = this.makeGameBoard();
+    this.bombsAroundCell = this.makeGameBoard();
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
-        if ((i > 0 && i < 9 && j > 0 && j < 9)){
-          if (this.arr[i-1][j-1].isBomb){
-           this.arr[i][j].numberOfBombsAround++
+        if (i > 0 && i < 9 && j > 0 && j < 9){
+          if (this.bombsAroundCell[i-1][j-1].isBomb){
+           this.bombsAroundCell[i][j].numberOfBombsAround++
           };
-          if (this.arr[i-1][j].isBomb) {
-            this.arr[i][j].numberOfBombsAround++
+          if (this.bombsAroundCell[i-1][j].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
           };
-          if (this.arr[i-1][j+1].isBomb)
-            {this.arr[i][j].numberOfBombsAround++
+          if (this.bombsAroundCell[i-1][j+1].isBomb)
+            {this.bombsAroundCell[i][j].numberOfBombsAround++
           };
-          if (this.arr[i][j-1].isBomb) {
-            this.arr[i][j].numberOfBombsAround++
+          if (this.bombsAroundCell[i][j-1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
           };
-          if (this.arr[i][j+1].isBomb) {
-            this.arr[i][j].numberOfBombsAround++
+          if (this.bombsAroundCell[i][j+1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
           };
-          if (this.arr[i+1][j-1].isBomb){
-            this.arr[i][j].numberOfBombsAround++
+          if (this.bombsAroundCell[i+1][j-1].isBomb){
+            this.bombsAroundCell[i][j].numberOfBombsAround++
           };
-          if (this.arr[i+1][j].isBomb) {
-            this.arr[i][j].numberOfBombsAround++
+          if (this.bombsAroundCell[i+1][j].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
           };
-          if (this.arr[i+1][j+1].isBomb)
-            {this.arr[i][j].numberOfBombsAround++
+          if (this.bombsAroundCell[i+1][j+1].isBomb)
+            {this.bombsAroundCell[i][j].numberOfBombsAround++
           };
         }
 
-        if (i == 0 && j == 0){
-          if (this.arr[i][j+1].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i+1][j+1].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i+1][j].isBomb) this.arr[i][j].numberOfBombsAround++
+        if (i == 0 && j == 0){ // top left
+          if (this.bombsAroundCell[i][j+1].isBomb){
+           this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i+1][j+1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i+1][j].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
         }
 
-        if (i == 0 && j == 9){
-          if (this.arr[i][j-1].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i+1][j-1].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i+1][j].isBomb) this.arr[i][j].numberOfBombsAround++
+        if (i == 0 && j == 9){ // top right
+          if (this.bombsAroundCell[i][j-1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i+1][j-1].isBomb){
+           this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i+1][j].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
         }
 
-        if (i == 9 && j == 0){
-          if (this.arr[i-1][j].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i-1][j+1].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i][j+1].isBomb) this.arr[i][j].numberOfBombsAround++
+        if (i == 9 && j == 0){ //bottom left
+          if (this.bombsAroundCell[i-1][j].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i-1][j+1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i][j+1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
         }
 
-        if (i == 9 && j == 9){
-          if (this.arr[i-1][j].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i-1][j-1].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i][j-1].isBomb) this.arr[i][j].numberOfBombsAround++
+        if (i == 9 && j == 9){ // bottom right
+          if (this.bombsAroundCell[i-1][j].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i-1][j-1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i][j-1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
         }
-        if (i == 0 && j > 0){
-          if (this.arr[i][j-1].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i+1][j-1].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i+1][j].isBomb) this.arr[i][j].numberOfBombsAround++
+        if (i == 0 && j >= 1 && j != 9){ // top side
+          if (this.bombsAroundCell[i][j-1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i+1][j-1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i+1][j].isBomb){
+           this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i+1][j+1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i][j+1].isBomb){
+           this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+
         }
-        if (i == 9 && j > 0){
-          if (this.arr[i][j-1].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i-1][j-1].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i-1][j].isBomb) this.arr[i][j].numberOfBombsAround++
+        if (i == 9 && j >= 1 && j != 9){ // bottom side
+          if (this.bombsAroundCell[i][j-1].isBomb){
+           this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i-1][j-1].isBomb){
+           this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i-1][j].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i-1][j+1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i][j+1].isBomb){
+           this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
         }
-        if (i > 0 && j == 0){
-          if (this.arr[i-1][j].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i-1][j+1].isBomb) this.arr[i][j].numberOfBombsAround++
-          if (this.arr[i][j].isBomb) this.arr[i][j].numberOfBombsAround++
+        if (i > 0 && i != 9 && j == 0){ //left side
+          if (this.bombsAroundCell[i-1][j].isBomb){
+           this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i-1][j+1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i][j+1].isBomb){
+           this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i+1][j+1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i+1][j].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
         }
-        if (i > 0 && j == 9){
-          if (this.arr[i][j-1].isBomb) this.arr[i][j].numberOfBombsAround++
+        if (i > 0 && i != 9 && j == 9){ // right side
+          if (this.bombsAroundCell[i-1][j].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i-1][j-1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i][j-1].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i+1][j-1].isBomb){
+           this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
+          if (this.bombsAroundCell[i+1][j].isBomb) {
+            this.bombsAroundCell[i][j].numberOfBombsAround++
+          }
         }
-
-        /*if (i - 1 < 0 || j - 1 < 0) {
-          break
-        } else if (this.arr[i-1][j-1].isBomb) {
-          console.log('ok');
-          this.arr[i][j].numberOfBombsAround++
-        };
-
-        if (i == 0) {
-          break
-        } else if (this.arr[i-1][j].isBomb) {
-           this.arr[i][j].numberOfBombsAround++
-        };
-
-        if (i == 0 || i == 9 || j == 0 || j == 9) {
-          break
-        } else if (this.arr[i-1][j+1].isBomb) {
-          this.arr[i][j].numberOfBombsAround++
-        };
-
-        if (i == 0 || i == 9 || j == 0 || j == 9) {
-          break
-        } else if (this.arr[i][j-1].isBomb) {
-          this.arr[i][j].numberOfBombsAround++
-        };
-
-        if (i == 0 || i == 9 || j == 0 || j == 9) {
-          break
-        } else if (this.arr[i][j+1].isBomb) {
-          this.arr[i][j].numberOfBombsAround++
-        };
-
-        if (i == 0 || i == 9 || j == 0 || j == 9) {
-          break
-        } else if (this.arr[i+1][j-1].isBomb) {
-          this.arr[i][j].numberOfBombsAround++
-        };
-
-        if (i == 0 || i == 9 || j == 0 || j == 9) {
-          break
-        } else if (this.arr[i+1][j].isBomb) {
-          this.arr[i][j].numberOfBombsAround++
-        };
-
-        if (i == 0 || i == 9 || j == 0 || j == 9) {
-          break
-        } else if (this.arr[i+1][j+1].isBomb) {
-          this.arr[i][j].numberOfBombsAround++
-        } ; */
       }
     }
   }

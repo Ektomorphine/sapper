@@ -1,5 +1,5 @@
 <div class="container">
-  <div *ngFor="let item of arr">
+  <div *ngFor="let item of bombsAroundCell">
     <span *ngFor="let cell of item">
       <div *ngIf="cell.isBomb" class="board-cell">
         <span (click)="openCell(cell)" [ngClass]="{coverOpened:cell.isHidden, coverClosed:true}">

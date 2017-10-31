@@ -18,7 +18,7 @@ export class SapperPage {
   ngOnInit() {
     this.makeGameBoard();
     this.countBombs();
-    console.log(this.bombsAroundCell);
+    console.log(this.bombsAroundCell[2][3]);
   }
 
   public makeGameBoard(): GameBoardCellValue[][] {
@@ -30,7 +30,9 @@ export class SapperPage {
         gameBoardMatrix[i][j] = {
           isBomb: false,
           numberOfBombsAround: 0,
-          isHidden: false
+          Hidden: false, // !
+          x: i,
+          y: j
         };
       }
     }
@@ -41,159 +43,56 @@ export class SapperPage {
   }
 
   public openCell(cell: GameBoardCellValue): void {
-    cell.isHidden = true;
+    cell.Hidden = true;
     if (cell.isBomb) {
       this.router.navigate(['game-over']);
     }
   }
 
+  public open2EmptyCells(cell: GameBoardCellValue){ // typo !
+    let object = {
+      x: cell.x,
+      y: cell.y
+    };
+    let buffer = [];
+    buffer.push(object)
+    while (buffer.length) {
+      for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+          // write code here
+        }
+      }
+    }
+  }
+
   public countBombs() {
     this.bombsAroundCell = this.makeGameBoard();
-    for (let i = 0; i < 10; i++) {
+     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
-        if (i > 0 && i < 9 && j > 0 && j < 9){
-          if (this.bombsAroundCell[i-1][j-1].isBomb){
-           this.bombsAroundCell[i][j].numberOfBombsAround++
-          };
-          if (this.bombsAroundCell[i-1][j].isBomb) {
+        if (i != 0 && j != 0 && this.bombsAroundCell[i-1][j-1].isBomb ) {
+         this.bombsAroundCell[i][j].numberOfBombsAround++
+        };
+        if (i != 0 && this.bombsAroundCell[i-1][j].isBomb ) {
+          this.bombsAroundCell[i][j].numberOfBombsAround++
+        };
+        if (i != 0 && j != 9 && this.bombsAroundCell[i-1][j+1].isBomb ) {
             this.bombsAroundCell[i][j].numberOfBombsAround++
-          };
-          if (this.bombsAroundCell[i-1][j+1].isBomb)
-            {this.bombsAroundCell[i][j].numberOfBombsAround++
-          };
-          if (this.bombsAroundCell[i][j-1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          };
-          if (this.bombsAroundCell[i][j+1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          };
-          if (this.bombsAroundCell[i+1][j-1].isBomb){
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          };
-          if (this.bombsAroundCell[i+1][j].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          };
-          if (this.bombsAroundCell[i+1][j+1].isBomb)
-            {this.bombsAroundCell[i][j].numberOfBombsAround++
-          };
-        }
-
-        if (i == 0 && j == 0){ // top left
-          if (this.bombsAroundCell[i][j+1].isBomb){
-           this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i+1][j+1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i+1][j].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-        }
-
-        if (i == 0 && j == 9){ // top right
-          if (this.bombsAroundCell[i][j-1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i+1][j-1].isBomb){
-           this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i+1][j].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-        }
-
-        if (i == 9 && j == 0){ //bottom left
-          if (this.bombsAroundCell[i-1][j].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i-1][j+1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i][j+1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-        }
-
-        if (i == 9 && j == 9){ // bottom right
-          if (this.bombsAroundCell[i-1][j].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i-1][j-1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i][j-1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-        }
-        if (i == 0 && j >= 1 && j != 9){ // top side
-          if (this.bombsAroundCell[i][j-1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i+1][j-1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i+1][j].isBomb){
-           this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i+1][j+1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i][j+1].isBomb){
-           this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-
-        }
-        if (i == 9 && j >= 1 && j != 9){ // bottom side
-          if (this.bombsAroundCell[i][j-1].isBomb){
-           this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i-1][j-1].isBomb){
-           this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i-1][j].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i-1][j+1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i][j+1].isBomb){
-           this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-        }
-        if (i > 0 && i != 9 && j == 0){ //left side
-          if (this.bombsAroundCell[i-1][j].isBomb){
-           this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i-1][j+1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i][j+1].isBomb){
-           this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i+1][j+1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i+1][j].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-        }
-        if (i > 0 && i != 9 && j == 9){ // right side
-          if (this.bombsAroundCell[i-1][j].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i-1][j-1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i][j-1].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i+1][j-1].isBomb){
-           this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-          if (this.bombsAroundCell[i+1][j].isBomb) {
-            this.bombsAroundCell[i][j].numberOfBombsAround++
-          }
-        }
+        };
+        if (j != 0 && this.bombsAroundCell[i][j-1].isBomb ) {
+          this.bombsAroundCell[i][j].numberOfBombsAround++
+        };
+        if (j != 9 && this.bombsAroundCell[i][j+1].isBomb) {
+          this.bombsAroundCell[i][j].numberOfBombsAround++
+        };
+        if (i != 9 && j != 0 && this.bombsAroundCell[i+1][j-1].isBomb){
+          this.bombsAroundCell[i][j].numberOfBombsAround++
+        };
+        if (i != 9 && this.bombsAroundCell[i+1][j].isBomb) {
+          this.bombsAroundCell[i][j].numberOfBombsAround++
+        };
+        if (i != 9 && j != 9 && this.bombsAroundCell[i+1][j+1].isBomb)
+          {this.bombsAroundCell[i][j].numberOfBombsAround++
+        };
       }
     }
   }

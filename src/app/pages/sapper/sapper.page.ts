@@ -18,7 +18,6 @@ export class SapperPage {
   ngOnInit() {
     this.makeGameBoard();
     this.countBombs();
-    console.log(this.bombsAroundCell[2][3]);
   }
 
   public makeGameBoard(): GameBoardCellValue[][] {
@@ -30,13 +29,13 @@ export class SapperPage {
         gameBoardMatrix[i][j] = {
           isBomb: false,
           numberOfBombsAround: 0,
-          Hidden: false, // !
+          Hidden: false,
           x: i,
           y: j
         };
       }
     }
-    for (let z = 0; z < 15; z++){
+    for (let z = 0; z < 5; z++){
       gameBoardMatrix[this.random(0,9)][this.random(0,9)].isBomb = true;
     }
     return gameBoardMatrix;
@@ -49,27 +48,81 @@ export class SapperPage {
     }
   }
 
-  public open2EmptyCells(cell: GameBoardCellValue){ // typo !
+  public openEmptyCells(cell: GameBoardCellValue) {
     let object = {
-      x: cell.x,
-      y: cell.y
+      i: cell.x,
+      j: cell.y
     };
     let buffer = [];
-    buffer.push(object)
+    let counter = 0;
+    buffer.push(object);
+    if (cell.numberOfBombsAround != 0 ) return;
     while (buffer.length) {
-      for (let i = 0; i < 10; i++) {
-        for (let j = 0; j < 10; j++) {
-          // write code here
+      for (let item of buffer) {
+        if (item.j != 0
+          && this.bombsAroundCell[item.i][item.j-1].numberOfBombsAround == 0
+          && !this.bombsAroundCell[item.i][item.j-1].Hidden &&
+          this.bombsAroundCell[item.i][item.j-1].isBomb == false) { // left
+          this.bombsAroundCell[item.i][item.j-1].Hidden = true;
+          object = {
+            i: this.bombsAroundCell[item.i][item.j - 1].x,
+            j: this.bombsAroundCell[item.i][item.j - 1].y
+          }
+          buffer.push(object);
+          counter++;
         }
+
+        if (item.j != 9 && this.bombsAroundCell[item.i][item.j+1].numberOfBombsAround == 0
+            && !this.bombsAroundCell[item.i][item.j+1].Hidden &&
+          this.bombsAroundCell[item.i][item.j+1].isBomb == false) { // right
+          this.bombsAroundCell[item.i][item.j+1].Hidden = true;
+          object = {
+            i: this.bombsAroundCell[item.i][item.j + 1].x,
+            j: this.bombsAroundCell[item.i][item.j + 1].y
+          }
+          buffer.push(object);
+          counter++;
+        }
+
+        if (item.i != 0
+          && this.bombsAroundCell[item.i-1][item.j].numberOfBombsAround == 0
+          && !this.bombsAroundCell[item.i-1][item.j].Hidden &&
+          this.bombsAroundCell[item.i-1][item.j].isBomb == false) { // left
+          this.bombsAroundCell[item.i-1][item.j].Hidden = true;
+          object = {
+            i: this.bombsAroundCell[item.i-1][item.j].x,
+            j: this.bombsAroundCell[item.i-1][item.j].y
+          }
+          buffer.push(object);
+          counter++;
+        }
+
+        if (item.i != 9
+          && this.bombsAroundCell[item.i+1][item.j].numberOfBombsAround == 0
+          && !this.bombsAroundCell[item.i+1][item.j].Hidden &&
+          this.bombsAroundCell[item.i+1][item.j].isBomb == false) { // left
+          this.bombsAroundCell[item.i+1][item.j].Hidden = true;
+          object = {
+            i: this.bombsAroundCell[item.i+1][item.j].x,
+            j: this.bombsAroundCell[item.i+1][item.j].y
+          }
+          buffer.push(object);
+          counter++;
+        }
+      } // for of end
+      for (let x = 0; x <= counter; x++){
+        buffer.shift();
       }
+
     }
+
   }
 
   public countBombs() {
     this.bombsAroundCell = this.makeGameBoard();
      for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
-        if (i != 0 && j != 0 && this.bombsAroundCell[i-1][j-1].isBomb ) {
+        if (i != 0 && j != 0 && this.bombsAroundCell[i - 1][j-1].isBomb ) {
          this.bombsAroundCell[i][j].numberOfBombsAround++
         };
         if (i != 0 && this.bombsAroundCell[i-1][j].isBomb ) {

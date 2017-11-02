@@ -19,7 +19,6 @@ export class SapperPage implements OnInit {
   ngOnInit() {
     this.makeGameBoard();
     this.countBombs();
-    console.log(this.cells);
   }
 
   public makeGameBoard(): GameBoardCellValue[][] {
@@ -86,8 +85,6 @@ export class SapperPage implements OnInit {
     if (this.openedCells == 100 - this.bombs) {
       alert('you win!');
     }
-    console.log(this.openedCells);
-    console.log(100-this.bombs);
     this.openedCells = 0;
   }
 

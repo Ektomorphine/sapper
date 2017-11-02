@@ -1,5 +1,4 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { GameBoardCellValue } from './../../models/game-board-cell-value.model';
@@ -9,19 +8,18 @@ import { GameBoardCellValue } from './../../models/game-board-cell-value.model';
   templateUrl: './sapper.page.html',
   styleUrls: ['./sapper.page.scss']
 })
-export class SapperPage {
+export class SapperPage implements OnInit {
 
   public cells: GameBoardCellValue[][];
   private openedCells = 0;
 
-  constructor(private router: Router) {}
+  public bombs = 10;
+
+  constructor(private _router: Router) {}
 
   ngOnInit() {
     this.makeGameBoard();
     this.countBombs();
-  }
-
-  ngOnChanges() {
   }
 
   public makeGameBoard(): GameBoardCellValue[][] {
@@ -39,7 +37,7 @@ export class SapperPage {
         };
       }
     }
-    for (let z = 0; z < 15; z++) {
+    for (let z = 0; z < this.bombs; z++) {
       gameBoardMatrix[this.random(0, 9)][this.random(0, 9)].isBomb = true;
     }
     return gameBoardMatrix;
@@ -48,12 +46,11 @@ export class SapperPage {
   public openCell(cell: GameBoardCellValue): void {
     cell.isOpen = true;
     if (cell.isBomb) {
-      this.router.navigate(['game-over']);
+      this._router.navigate(['game-over']);
     }
   }
 
   public checkVictory(): void {
-    console.log('ok!');
     for (let i = 0; i <= 9; i++) {
       for (let j = 0; j <= 9; j++) {
         if (this.cells[i][j].isOpen) {
@@ -61,13 +58,13 @@ export class SapperPage {
         }
       }
     }
-    if (this.openedCells == 86) {
+    if (this.openedCells == 100 - this.bombs) {
       alert('you win!');
     }
     this.openedCells = 0;
   }
 
-  public openEmptyCells(cell: GameBoardCellValue) {
+  public openEmptyCells(cell: GameBoardCellValue): void {
     let object = {
       i: cell.x,
       j: cell.y

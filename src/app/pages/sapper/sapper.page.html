@@ -2,12 +2,14 @@
   <div *ngFor="let row of cells">
     <span *ngFor="let cell of row">
       <div *ngIf="cell.isBomb" class="board-cell">
-        <span (click)="openCell(cell);openEmptyCells(cell);checkVictory()" [ngClass]="{coverOpened:cell.isOpen, coverClosed:true}">
+        <span (click)="openCell(cell);openEmptyCells(cell);checkVictory()"
+              [ngClass]="{coverOpened:cell.isOpen, coverClosed:true}">
           *
         </span>
       </div>
       <div *ngIf="cell.isBomb != true" class="board-cell">
-        <span (click)="openCell(cell);openEmptyCells(cell);checkVictory()" [ngClass]="{coverOpened:cell.isOpen, coverClosed:true}">
+        <span (click)="openCell(cell);openEmptyCells(cell);checkVictory()"
+              [ngClass]="{coverOpened:cell.isOpen, coverClosed:true}">
           {{cell.numberOfBombsAround}}
         </span>
       </div>

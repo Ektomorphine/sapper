@@ -17,11 +17,11 @@
   height: 100%;
   position: relative;
   cursor: pointer;
-  // opacity: 0;
+  opacity: 0;
   background-color: $open-cell;
-}
 
+}
 .coverOpened {
   opacity: 1 !important;
-  background-color: red;
+  // background-color: red;
 }

@@ -1,7 +1,7 @@
 export interface GameBoardCellValue {
   numberOfBombsAround: number;
   isBomb: boolean;
-  Hidden: boolean;
+  isOpen: boolean;
   x: number;
   y: number;
 }

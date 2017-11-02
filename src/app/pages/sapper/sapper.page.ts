@@ -19,6 +19,7 @@ export class SapperPage implements OnInit {
   ngOnInit() {
     this.makeGameBoard();
     this.countBombs();
+    console.log(this.cells);
   }
 
   public makeGameBoard(): GameBoardCellValue[][] {
@@ -32,6 +33,7 @@ export class SapperPage implements OnInit {
           isBomb: false,
           numberOfBombsAround: 0,
           isOpen: false,
+          isFlag: false,
           x: i,
           y: j
         };
@@ -51,9 +53,26 @@ export class SapperPage implements OnInit {
   public openCell(cell: GameBoardCellValue): void {
     cell.isOpen = true;
     if (cell.isBomb) {
-      this._router.navigate(['game-over']);
+      this.gameOver();
     }
-    console.log(cell);
+  }
+
+  public gameOver(): void {
+    for (let i = 0; i <= 9; i++) {
+      for (let j = 0; j <= 9; j++) {
+        this.cells[i][j].isOpen = true;
+      }
+    }
+    alert('Game over');
+  }
+
+  public restart(): void {
+    this.makeGameBoard();
+    this.countBombs();
+  }
+
+  public toggleFlag(cell: GameBoardCellValue): void {
+      cell.isFlag = !cell.isFlag;
   }
 
   public checkVictory(): void {

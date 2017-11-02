@@ -1,19 +1,31 @@
 <div class="container">
   <div *ngFor="let row of cells">
     <span *ngFor="let cell of row">
-      <div *ngIf="cell.isBomb" class="board-cell">
+      <div *ngIf="cell.isBomb" class="board-cell"
+      (contextmenu)="toggleFlag(cell)"
+        oncontextmenu="return false;">
+        <span *ngIf="cell.isFlag" class="flagCell">
+          <img src="assets/images/flag.jpg">
+        </span>
         <span (click)="openCell(cell);openEmptyCells(cell);checkVictory()"
-              [ngClass]="{coverOpened:cell.isOpen, coverClosed:true}">
+              [ngClass]="{ coverOpened:cell.isOpen, coverClosed:true, bombs:true }">
           *
         </span>
       </div>
-      <div *ngIf="cell.isBomb != true" class="board-cell">
+      <div *ngIf="!cell.isBomb"
+        class="board-cell"
+        (contextmenu)="toggleFlag(cell)"
+        oncontextmenu="return false;">
+        <span *ngIf="cell.isFlag" class="flagCell">
+          <img src="assets/images/flag.jpg">
+        </span>
         <span (click)="openCell(cell);openEmptyCells(cell);checkVictory()"
-              [ngClass]="{coverOpened:cell.isOpen, coverClosed:true}">
+              [ngClass]="{ coverOpened:cell.isOpen, coverClosed:true }">
           {{cell.numberOfBombsAround}}
         </span>
       </div>
     </span>
     <br>
   </div>
+  <button (click)="restart()">Restart</button>
 </div>

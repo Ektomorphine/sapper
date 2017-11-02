@@ -12,8 +12,7 @@ export class SapperPage implements OnInit {
 
   public cells: GameBoardCellValue[][];
   private openedCells = 0;
-
-  public bombs = 10;
+  private bombs = 15;
 
   constructor(private _router: Router) {}
 
@@ -23,6 +22,7 @@ export class SapperPage implements OnInit {
   }
 
   public makeGameBoard(): GameBoardCellValue[][] {
+    let bombsCoordsLength = 0;
     let gameBoardMatrix: GameBoardCellValue[][];
     gameBoardMatrix = new Array();
     for (let i = 0; i < 10; i++) {
@@ -37,8 +37,13 @@ export class SapperPage implements OnInit {
         };
       }
     }
-    for (let z = 0; z < this.bombs; z++) {
-      gameBoardMatrix[this.random(0, 9)][this.random(0, 9)].isBomb = true;
+    while (bombsCoordsLength < this.bombs) {
+      let x = this.random(0, 9);
+      let y = this.random(0, 9);
+      if (!gameBoardMatrix[x][y].isBomb) {
+        gameBoardMatrix[x][y].isBomb = true;
+        bombsCoordsLength++;
+      }
     }
     return gameBoardMatrix;
   }
@@ -48,6 +53,7 @@ export class SapperPage implements OnInit {
     if (cell.isBomb) {
       this._router.navigate(['game-over']);
     }
+    console.log(cell);
   }
 
   public checkVictory(): void {
@@ -61,6 +67,8 @@ export class SapperPage implements OnInit {
     if (this.openedCells == 100 - this.bombs) {
       alert('you win!');
     }
+    console.log(this.openedCells);
+    console.log(100-this.bombs);
     this.openedCells = 0;
   }
 
@@ -129,19 +137,19 @@ export class SapperPage implements OnInit {
           counter++;
         }
 
-        if (item.j > 1 && !this.cells[item.i][item.j - 2].isBomb) {
+        if (item.j > 1 && !this.cells[item.i][item.j - 1].isBomb) { // to right
           this.cells[item.i][item.j - 1].isOpen = true;
         }
 
-        if (item.j < 8 && !this.cells[item.i][item.j + 2].isBomb) {
+        if (item.j < 8 && !this.cells[item.i][item.j + 1].isBomb) { // to left
           this.cells[item.i][item.j + 1].isOpen = true;
         }
 
-        if (item.i > 1 && !this.cells[item.i - 2][item.j].isBomb) {
+        if (item.i > 1 && !this.cells[item.i - 1][item.j].isBomb) { // to bottom
           this.cells[item.i - 1][item.j].isOpen = true;
         }
 
-        if (item.i < 8 && !this.cells[item.i + 2][item.j].isBomb) {
+        if (item.i < 8 && !this.cells[item.i + 1][item.j].isBomb) { // to top
           this.cells[item.i + 1][item.j].isOpen = true;
         }
 
@@ -172,6 +180,7 @@ export class SapperPage implements OnInit {
             this.cells[item.i + 1][item.j + 1].numberOfBombsAround > 0) {
               this.cells[item.i + 1][item.j + 1].isOpen = true;
         }
+
       }
       for (let x = 0; x <= counter; x++) {
         buffer.shift();

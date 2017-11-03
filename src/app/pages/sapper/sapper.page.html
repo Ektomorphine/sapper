@@ -2,13 +2,14 @@
   <div *ngFor="let row of cells" class="row">
     <span *ngFor="let cell of row">
       <div *ngIf="cell.isBomb" class="board-cell"
-      (contextmenu)="toggleFlag(cell)"
-        oncontextmenu="return false;">
+            (contextmenu)="toggleFlag(cell)"
+            oncontextmenu="return false;">
         <span *ngIf="cell.isFlag" class="flagCell">
           <img src="assets/images/flag.jpg">
         </span>
-        <span (click)="openCell(cell);openEmptyCells(cell);checkVictory()"
-              [ngClass]="{ coverOpened:cell.isOpen, coverClosed:true, bombs:true }">
+        <span (click)="openCell(cell)"
+              class="coverClosed"
+              [ngClass]="{ coverOpened:cell.isOpen, bombs:true }">
           *
         </span>
       </div>
@@ -19,8 +20,9 @@
         <span *ngIf="cell.isFlag" class="flagCell">
           <img src="assets/images/flag.jpg">
         </span>
-        <span (click)="openCell(cell);openEmptyCells(cell);checkVictory()"
-              [ngClass]="{ coverOpened:cell.isOpen, coverClosed:true }">
+        <span (click)="openCell(cell)"
+              class="coverClosed"
+              [ngClass]="{ coverOpened:cell.isOpen }">
           {{cell.numberOfBombsAround}}
         </span>
       </div>

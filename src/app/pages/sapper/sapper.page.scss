@@ -23,17 +23,17 @@
 
 .coverOpened {
   background-color: $open-cell;
-  opacity: 1 !important;
+  opacity: 1;
 }
 
 .bombs {
-  background-color: red ;
+  background-color: red;
 }
 
 .flagCell {
+  height: 100%;
   position: absolute;
   width: 100%;
-  height: 100%;
 }
 
 .row {

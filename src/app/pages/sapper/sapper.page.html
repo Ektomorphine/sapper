@@ -1,5 +1,5 @@
 <div class="container">
-  <div *ngFor="let row of cells">
+  <div *ngFor="let row of cells" class="row">
     <span *ngFor="let cell of row">
       <div *ngIf="cell.isBomb" class="board-cell"
       (contextmenu)="toggleFlag(cell)"

@@ -153,47 +153,47 @@ export class SapperPage implements OnInit {
             counter++;
         }
         // to right
-        if (item.j > 1 && !this.cells[item.i][item.j - 1].isBomb ) {
+        if (item.j > 1 && !this.cells[item.i][item.j - 1].isBomb) {
           this.cells[item.i][item.j - 1].isOpen = true;
         }
         // to left
-        if (item.j < 8 && !this.cells[item.i][item.j + 1].isBomb ) {
+        if (item.j < 8 && !this.cells[item.i][item.j + 1].isBomb) {
           this.cells[item.i][item.j + 1].isOpen = true;
         }
         // to bottom
-        if (item.i > 1 && !this.cells[item.i - 1][item.j].isBomb ) {
+        if (item.i > 1 && !this.cells[item.i - 1][item.j].isBomb) {
           this.cells[item.i - 1][item.j].isOpen = true;
         }
         // to top
-        if (item.i < 8 && !this.cells[item.i + 1][item.j].isBomb ) {
+        if (item.i < 8 && !this.cells[item.i + 1][item.j].isBomb) {
           this.cells[item.i + 1][item.j].isOpen = true;
         }
 
         if (item.i !== 0 &&
             item.j !== 9 &&
             !this.cells[item.i - 1][item.j + 1].isBomb &&
-            this.cells[item.i - 1][item.j + 1].numberOfBombsAround > 0 ) {
+            this.cells[item.i - 1][item.j + 1].numberOfBombsAround > 0) {
               this.cells[item.i - 1][item.j + 1].isOpen = true;
         }
 
         if (item.i !== 9 &&
             item.j !== 0 &&
             !this.cells[item.i + 1][item.j - 1].isBomb &&
-            this.cells[item.i + 1][item.j - 1].numberOfBombsAround > 0 ) {
+            this.cells[item.i + 1][item.j - 1].numberOfBombsAround > 0) {
               this.cells[item.i + 1][item.j - 1].isOpen = true;
         }
 
         if (item.i !== 0 &&
             item.j !== 0 &&
             !this.cells[item.i - 1][item.j - 1].isBomb &&
-            this.cells[item.i - 1][item.j - 1].numberOfBombsAround > 0 ) {
+            this.cells[item.i - 1][item.j - 1].numberOfBombsAround > 0) {
               this.cells[item.i - 1][item.j - 1].isOpen = true;
         }
 
         if (item.i !== 9 &&
             item.j !== 9 &&
             !this.cells[item.i + 1][item.j + 1].isBomb &&
-            this.cells[item.i + 1][item.j + 1].numberOfBombsAround > 0 ) {
+            this.cells[item.i + 1][item.j + 1].numberOfBombsAround > 0) {
               this.cells[item.i + 1][item.j + 1].isOpen = true;
         }
 
@@ -208,28 +208,28 @@ export class SapperPage implements OnInit {
    this.makeGameBoard();
      for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
-        if (i !== 0 && j !== 0 && this.cells[i - 1][j - 1].isBomb ) {
+        if (i !== 0 && j !== 0 && this.cells[i - 1][j - 1].isBomb) {
          this.cells[i][j].numberOfBombsAround++;
         }
-        if (i !== 0 && this.cells[i - 1][j].isBomb ) {
+        if (i !== 0 && this.cells[i - 1][j].isBomb) {
           this.cells[i][j].numberOfBombsAround++;
         }
-        if (i !== 0 && j !== 9 && this.cells[i - 1][j + 1].isBomb ) {
+        if (i !== 0 && j !== 9 && this.cells[i - 1][j + 1].isBomb) {
             this.cells[i][j].numberOfBombsAround++;
         }
-        if (j !== 0 && this.cells[i][j - 1].isBomb ) {
+        if (j !== 0 && this.cells[i][j - 1].isBomb) {
           this.cells[i][j].numberOfBombsAround++;
         }
         if (j !== 9 && this.cells[i][j + 1].isBomb) {
           this.cells[i][j].numberOfBombsAround++;
         }
-        if (i !== 9 && j !== 0 && this.cells[i + 1][j - 1].isBomb ) {
+        if (i !== 9 && j !== 0 && this.cells[i + 1][j - 1].isBomb) {
           this.cells[i][j].numberOfBombsAround++;
         }
         if (i !== 9 && this.cells[i + 1][j].isBomb) {
           this.cells[i][j].numberOfBombsAround++;
         }
-        if (i !== 9 && j !== 9 && this.cells[i + 1][j + 1].isBomb ) {
+        if (i !== 9 && j !== 9 && this.cells[i + 1][j + 1].isBomb) {
           this.cells[i][j].numberOfBombsAround++;
         }
       }

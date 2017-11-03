@@ -14,9 +14,9 @@
         </span>
       </div>
       <div *ngIf="!cell.isBomb"
-        class="board-cell"
-        (contextmenu)="toggleFlag(cell)"
-        oncontextmenu="return false;">
+            class="board-cell"
+            (contextmenu)="toggleFlag(cell)"
+            oncontextmenu="return false;">
         <span *ngIf="cell.isFlag" class="flagCell">
           <img src="assets/images/flag.jpg">
         </span>

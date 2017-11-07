@@ -96,7 +96,7 @@ export class SapperPage implements OnInit {
     const buffer = [];
     let counter = 0;
     buffer.push(object);
-    if (cell.numberOfBombsAround !== 0 ) {
+    if (cell.numberOfBombsAround !== 0) {
       return;
     }
     while (buffer.length) {

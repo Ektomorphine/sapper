@@ -5,14 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SapperPage } from './pages/sapper/sapper.page';
 import { HomePage } from './pages/home/home.page';
-import { GameOverPage } from './pages/game-over/game-over.page';
 
 @NgModule({
   declarations: [
     AppComponent,
     SapperPage,
-    HomePage,
-    GameOverPage
+    HomePage
   ],
   imports: [
     BrowserModule,

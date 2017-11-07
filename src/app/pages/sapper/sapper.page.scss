@@ -1,0 +1,41 @@
+@import '../../variables.scss';
+
+.board-cell {
+  border: 1px solid black;
+  display: inline-block;
+  height: 20px;
+  margin: 0;
+  margin: 2px 0;
+  position: relative;
+  text-align: center;
+  width: 20px;
+}
+
+.coverClosed {
+  background-color: $open-cell;
+  cursor: pointer;
+  display: inline-block;
+  height: 100%;
+  opacity: 0;
+  position: relative;
+  width: 100%;
+}
+
+.coverOpened {
+  background-color: $open-cell;
+  opacity: 1;
+}
+
+.bombs {
+  background-color: red;
+}
+
+.flagCell {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.row {
+  min-width: 300px;
+}

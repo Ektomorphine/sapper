@@ -12,20 +12,19 @@ export class SapperPage implements OnInit {
   public cells: GameBoardCellValue[][] = [];
   private openedCells = 0;
   private bombs = 20;
-  private _cols = 30
-  private _rows = 30;
+  private _cols = 10;
+  private _rows = 10;
 
   constructor(private _router: Router) {}
 
   ngOnInit() {
     this.cells = this.makeGameBoard(this.bombs);
     this.countBombs();
-    console.log(this.cells);
   }
 
   public makeGameBoard(bombs_count: number): GameBoardCellValue[][] {
     let bombsCoordsLength = 0;
-    let cells = [];
+    const cells = [];
     for (let i = 0; i < this._rows; i++) {
       cells[i] = [];
       for (let j = 0; j < this._cols; j++) {
@@ -50,16 +49,19 @@ export class SapperPage implements OnInit {
     return cells;
   }
 
-  public openCell(cell: GameBoardCellValue): void { // work fine
+  public openCell(cell: GameBoardCellValue): void {
+    let argX = cell.x;
+    let argY = cell.y;
     cell.isOpen = true;
     this.openEmptyCells(cell);
-    this.checkVictory();
     if (cell.isBomb) {
       this.gameOver();
+    } else {
+      this.checkVictory();
     }
   }
 
-  public gameOver(): void { // work fine
+  public gameOver(): void {
     for (let i = 0; i < this._rows; i++) {
       for (let j = 0; j < this._cols; j++) {
         this.cells[i][j].isOpen = true;
@@ -68,16 +70,16 @@ export class SapperPage implements OnInit {
     alert('Game over');
   }
 
-  public restart(): void { //  ok
+  public restart(): void {
     this.cells = this.makeGameBoard(this.bombs);
     this.countBombs();
   }
 
-  public toggleFlag(cell: GameBoardCellValue): void { // work fine
+  public toggleFlag(cell: GameBoardCellValue): void {
     cell.isFlag = !cell.isFlag;
   }
 
-  public checkVictory(): void { // work fine
+  public checkVictory(): void {
     for (let i = 0; i < this._rows; i++) {
       for (let j = 0; j < this._cols; j++) {
         if (this.cells[i][j].isOpen) {
@@ -92,29 +94,54 @@ export class SapperPage implements OnInit {
   }
 
   public openEmptyCells(cell: GameBoardCellValue) {
-    // let object = {
-    //   i: cell.x,
-    //   j: cell.y
-    // };
-    // const buffer = [];
-    // let counter = 0;
-    // buffer.push(object);
+    let object = {
+      x: cell.x,
+      y: cell.y
+    }
+    const buffer = [];
+    let counter = 0;
+    buffer.push(object);
 
-    // if (cell.numberOfBombsAround !== 0) {
-    //   return;
-    // }
-    // while(buffer.length) {
-
-    // }
+    if (cell.numberOfBombsAround !== 0) { //if cell value = 0, break
+      return;
+    }
+    while (buffer.length) {
+      for (let item of buffer) {
+        for (let n = -1; n <= 1; n++) { // subloop for scan around cell
+          for (let m = -1; m <= 1; m++) {
+            if ((item.x + n >= 0 && item.x + n < this._rows) &&
+               (item.y + m >= 0 && item.y + m < this._cols)) {
+              if (this.cells[item.x + n][item.y + m].numberOfBombsAround == 0 &&
+                  !this.cells[item.x + n][item.y + m].isOpen) {
+                this.cells[item.x + n][item.y + m].isOpen = true;
+                object = {
+                  x: item.x + n,
+                  y: item.y + m
+                }
+                buffer.push(object);
+                counter++;
+              } else if (this.cells[item.x + n][item.y + m].numberOfBombsAround > 0) {
+                this.cells[item.x + n][item.y + m].isOpen = true;
+              }
+            }
+          }
+        }
+      }
+      for (let x = 0; x <= counter; x++) {
+        buffer.shift();
+      }
+    }
   }
 
-  public scanAround(x,y: number): number {
+  public scanAround(x, y: number): number {
     let count = 0;
     for (let n = -1; n <= 1; n++) {
       for (let m = -1; m <= 1; m++) {
         if ((x + n >= 0 && x + n < this._rows) &&
-        (y + m >= 0 && y + m < this._cols)) {
-          if (this.cells[x + n][y + m].isBomb) count++
+           (y + m >= 0 && y + m < this._cols)) {
+          if (this.cells[x + n][y + m].isBomb) {
+            count++;
+          }
         }
       }
     }
@@ -124,7 +151,7 @@ export class SapperPage implements OnInit {
   public countBombs() {
     for (let i = 0; i < this._rows; i++) {
       for (let j = 0; j < this._cols; j++) {
-        this.cells[i][j].numberOfBombsAround = this.scanAround(i,j);
+        this.cells[i][j].numberOfBombsAround = this.scanAround(i, j);
       }
     }
   }
@@ -133,3 +160,4 @@ export class SapperPage implements OnInit {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 }
+

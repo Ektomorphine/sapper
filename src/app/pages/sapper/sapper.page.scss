@@ -11,7 +11,7 @@
 }
 
 .coverClosed {
-  // opacity: 0;
+  opacity: 0;
   background-color: $open-cell;
   cursor: pointer;
   display: inline-block;
@@ -21,7 +21,7 @@
 }
 
 .coverOpened {
-  background-color: red;
+  // background-color: red;
   opacity: 1;
 }
 

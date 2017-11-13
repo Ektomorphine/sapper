@@ -50,8 +50,6 @@ export class SapperPage implements OnInit {
   }
 
   public openCell(cell: GameBoardCellValue): void {
-    let argX = cell.x;
-    let argY = cell.y;
     cell.isOpen = true;
     this.openEmptyCells(cell);
     if (cell.isBomb) {
@@ -94,41 +92,24 @@ export class SapperPage implements OnInit {
   }
 
   public openEmptyCells(cell: GameBoardCellValue) {
-    let object = {
-      x: cell.x,
-      y: cell.y
+    let count = 0;
+    let x = cell.x;
+    let y = cell.y;
+    if (cell.numberOfBombsAround !== 0 ) {
+      return
     }
-    const buffer = [];
-    let counter = 0;
-    buffer.push(object);
-
-    if (cell.numberOfBombsAround !== 0) { //if cell value = 0, break
-      return;
-    }
-    while (buffer.length) {
-      for (let item of buffer) {
-        for (let n = -1; n <= 1; n++) { // subloop for scan around cell
-          for (let m = -1; m <= 1; m++) {
-            if ((item.x + n >= 0 && item.x + n < this._rows) &&
-               (item.y + m >= 0 && item.y + m < this._cols)) {
-              if (this.cells[item.x + n][item.y + m].numberOfBombsAround == 0 &&
-                  !this.cells[item.x + n][item.y + m].isOpen) {
-                this.cells[item.x + n][item.y + m].isOpen = true;
-                object = {
-                  x: item.x + n,
-                  y: item.y + m
-                }
-                buffer.push(object);
-                counter++;
-              } else if (this.cells[item.x + n][item.y + m].numberOfBombsAround > 0) {
-                this.cells[item.x + n][item.y + m].isOpen = true;
-              }
-            }
+    for (let n = -1; n <= 1; n++) {
+      for (let m = -1; m <= 1; m++) {
+        if ((x + n >= 0 && x + n < this._rows) &&
+           (y + m >= 0 && y + m < this._cols)) {
+          if (n == 0 && m == 0) continue;
+          if (this.cells[x + n][y + m].numberOfBombsAround > 0) {
+            this.cells[x + n][y + m].isOpen = true;
+          } else if (!this.cells[x + n][y + m].isOpen) {
+             this.cells[x + n][y + m].isOpen = true;
+             this.openEmptyCells(this.cells[x + n][y + m]);
           }
         }
-      }
-      for (let x = 0; x <= counter; x++) {
-        buffer.shift();
       }
     }
   }
@@ -160,4 +141,3 @@ export class SapperPage implements OnInit {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 }
-
